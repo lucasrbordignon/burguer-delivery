@@ -33,3 +33,12 @@ model Address {
 
   @@index([user_id])
 }
+
+model channels {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+}
