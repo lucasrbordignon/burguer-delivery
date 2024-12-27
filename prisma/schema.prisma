@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  phone_number String    @unique
-  name         String
-  password     String
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  deleted_at   DateTime?
-  status       String    @default("Ativo")
-  type         String    @default("user")
-  adresses     Address[]
+  id            String       @id @default(uuid())
+  phone_number  String       @unique
+  name          String
+  password      String
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  deleted_at    DateTime?
+  status        String       @default("Ativo")
+  type          String       @default("user")
+  adresses      Address[]
+  subscriptions Subscriber[]
 }
 
 model Address {
@@ -34,11 +35,26 @@ model Address {
   @@index([user_id])
 }
 
-model channels {
-  id          String    @id @default(uuid())
-  name        String    @unique
+model Channel {
+  id          String       @id @default(uuid())
+  name        String       @unique
   description String
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
   deleted_at  DateTime?
+  subscribers Subscriber[]
+}
+
+model Subscriber {
+  channel    Channel @relation(fields: [channel_id], references: [id])
+  channel_id String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  created_at DateTime @default(now())
+
+  @@id([channel_id, user_id])
+  @@index([user_id])
+  @@index([channel_id])
 }
