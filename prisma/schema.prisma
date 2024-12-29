@@ -3,22 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String       @id @default(uuid())
-  phone_number  String       @unique
+  id            String         @id @default(uuid())
+  phone_number  String         @unique
   name          String
   password      String
-  created_at    DateTime     @default(now())
-  updated_at    DateTime     @updatedAt
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
   deleted_at    DateTime?
-  status        String       @default("Ativo")
-  type          String       @default("user")
+  status        String         @default("Ativo")
+  type          String         @default("user")
   adresses      Address[]
   subscriptions Subscriber[]
+  Notification  Notification[]
 }
 
 model Address {
@@ -36,13 +37,14 @@ model Address {
 }
 
 model Channel {
-  id          String       @id @default(uuid())
-  name        String       @unique
-  description String
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
-  deleted_at  DateTime?
-  subscribers Subscriber[]
+  id           String         @id @default(uuid())
+  name         String         @unique
+  description  String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  deleted_at   DateTime?
+  subscribers  Subscriber[]
+  Notification Notification[]
 }
 
 model Subscriber {
@@ -55,6 +57,22 @@ model Subscriber {
   created_at DateTime @default(now())
 
   @@id([channel_id, user_id])
+  @@index([user_id])
+  @@index([channel_id])
+}
+
+model Notification {
+  id            String   @id @default(uuid())
+  content       String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  read          Boolean  @default(false)
+  user          User?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       String?
+  channel       Channel? @relation(fields: [channel_id], references: [id])
+  channel_id    String?
+  send_whatsapp Boolean  @default(false)
+
   @@index([user_id])
   @@index([channel_id])
 }
