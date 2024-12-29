@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import ChannelService from "../services/ChannelService";
 
 class ChannelController {
-  async createChannelr(req: Request, res: Response) {
+  async createChannel(req: Request, res: Response) {
     const { name, description} = req.body;
 
     try {
