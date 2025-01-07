@@ -19,7 +19,7 @@ model User {
   type          String         @default("user")
   adresses      Address[]
   subscriptions Subscriber[]
-  Notification  Notification[]
+  notifications Notification[]
 }
 
 model Address {
@@ -37,14 +37,14 @@ model Address {
 }
 
 model Channel {
-  id           String         @id @default(uuid())
-  name         String         @unique
-  description  String
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
-  deleted_at   DateTime?
-  subscribers  Subscriber[]
-  Notification Notification[]
+  id            String         @id @default(uuid())
+  name          String         @unique
+  description   String
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  deleted_at    DateTime?
+  subscribers   Subscriber[]
+  notifications Notification[]
 }
 
 model Subscriber {
