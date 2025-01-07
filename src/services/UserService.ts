@@ -36,6 +36,14 @@ class UserService {
     return await prisma.user.findMany();
   }
 
+  async getUserById(id: string) {
+    return await prisma.user.findUnique({
+      where: {
+        id
+      }
+    });
+  }
+
   async updateUser(id: string, data: Partial<{ phone_number: string; name: string; password: string; status: string; type: string; }>) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);

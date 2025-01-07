@@ -15,7 +15,7 @@ class SubscriberService {
   async getSubscribersByChannel(channelId: string) {
     return prisma.subscriber.findMany({
       where: { channel_id: channelId },
-      include: { user: true }, // Inclui informações do usuário
+      include: { user: true },
     })
   }
 

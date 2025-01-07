@@ -22,6 +22,17 @@ class UserController {
     }
   }
 
+  async getUserbyId(req: Request, res: Response) {
+    const { id } = req.params
+
+    try {
+      const user = await UserService.getUserById(id)
+      res.json(user)
+    } catch ( error ) {
+      res.status(500).json({ error: "Erro ao buscar usuários." })
+    }
+  }
+
   async updateUser(req: Request, res: Response) {
     const { id } = req.params;
     const { phone_number, name, password, status, type } = req.body;
