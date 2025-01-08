@@ -1,6 +1,7 @@
 import express from "express";
 import AddressController from "./controllers/AddressController";
 import ChannelController from "./controllers/ChannelController";
+import NotificationController from "./controllers/NotificationController";
 import SubscriberController from "./controllers/SubscriberController";
 import UserController from "./controllers/UserController";
 
@@ -26,5 +27,9 @@ router.delete("/channels/:id", ChannelController.deleteChannel);
 router.post("/channels/subscribers", SubscriberController.createSubscribers);
 router.get("/channels/:channelId/subscribers", SubscriberController.getSubscribersByChannel);
 router.delete("/channels/:channelId/subscribers/:id", SubscriberController.deleteSubscriber);
+
+router.post('/notifications', NotificationController.createNotification);
+router.get('/notifications/:user_id', NotificationController.getNotificationByUserId);
+router.patch('/notifications/:id/read', NotificationController.markAsRead);
 
 export default router;
